@@ -3,10 +3,6 @@
 import sys
 import subprocess
 import argparse
-#import numpy as np
-#import hungarian
-#from collections import Counter 
-#import operator
 
 def read_and_write_xyz(InFile, OutFile, AlignBy):
    """
