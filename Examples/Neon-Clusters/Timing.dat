@@ -1,0 +1,13 @@
+#- Real time to align neon clusters of size 'n' using
+# a wrapper to a fast C++ implementation (hungarian) the Kuhn−Munkres algorithm in Python is
+# needed to solve the assignment problem.
+#
+#n[Ne]  t[C++](sec)
+10      0.19
+50      2.49
+100     9.77
+150     25.16
+200     37.1
+300     83.9
+500     232.07
+1000    912.32

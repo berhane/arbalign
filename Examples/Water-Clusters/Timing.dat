@@ -1,0 +1,33 @@
+#- Real time to align water clusters of size 'n' using
+#
+# a Python Munkres implementation - Clapper, B. M. Munkres 1.0.8: Munkres Algorithm For The
+# Assignment Problem.  https://pypi.python.org/Pypi/Munkres; (accessed March 15, 2016).
+# OR
+# or a wrapper to a fast C++ implementation (hungarian) the Kuhn−Munkres algorithm in Python is
+# needed to solve the assignment problem.
+#
+#n[H2O]  t[Python](sec)  t[C++](sec)
+2        0.967           0.36
+3        0.210           0.173
+4        0.238           0.191
+5        0.293           0.236
+6        0.396           0.285
+7        0.540           0.34
+8        0.628           0.426
+9        0.768           0.513
+10       0.922           0.596
+11       1.238           0.692
+12       2.210           0.777
+13       3.274           0.905
+14       2.386           1.018
+15       2.927           1.128
+16       5.251           1.329
+17       5.224           1.451
+18       7.900           1.579
+19       8.294           1.765
+20       8.174           1.915
+21       10.922          2.15
+25       33.785          3.02
+40       70.257          7.314
+60       206.098         15.693
+100      5683.097        44.349

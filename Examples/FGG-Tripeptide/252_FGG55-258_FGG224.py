@@ -1,0 +1,159 @@
+import cPickle, base64
+try:
+	from SimpleSession.versions.v62 import beginRestore,\
+	    registerAfterModelsCB, reportRestoreError, checkVersion
+except ImportError:
+	from chimera import UserError
+	raise UserError('Cannot open session that was saved in a'
+	    ' newer version of Chimera; update your version')
+checkVersion([1, 10, 2, 40686])
+import chimera
+from chimera import replyobj
+replyobj.status('Restoring session...', \
+    blankAfter=0)
+replyobj.status('Beginning session restore...', \
+    blankAfter=0, secondary=True)
+beginRestore()
+
+def restoreCoreModels():
+	from SimpleSession.versions.v62 import init, restoreViewer, \
+	     restoreMolecules, restoreColors, restoreSurfaces, \
+	     restoreVRML, restorePseudoBondGroups, restoreModelAssociations
+	molInfo = cPickle.loads(base64.b64decode('gAJ9cQEoVRFyaWJib25JbnNpZGVDb2xvcnECSwhOfYdVCWJhbGxTY2FsZXEDSwhHP8mZmaAAAAB9h1UJcG9pbnRTaXplcQRLCEc/8AAAAAAAAH2HVQVjb2xvcnEFSwhLAH1xBihLAV1xB0sBYUsCXXEISwJhSwNdcQlLA2FLBF1xCksEYUsFXXELSwVhSwZdcQxLBmFLB11xDUsHYXWHVQpyaWJib25UeXBlcQ5LCEsAfYdVCnN0aWNrU2NhbGVxD0sIRz/gAAAAAAAAfYdVDGFyb21hdGljTW9kZXEQSwhLAX2HVQp2ZHdEZW5zaXR5cRFLCEdAFAAAAAAAAH2HVQZoaWRkZW5xEksIiX2HVQ1hcm9tYXRpY0NvbG9ycRNLCE59h1UPcmliYm9uU21vb3RoaW5ncRRLCEsAfYdVCWF1dG9jaGFpbnEVSwiIfYdVCG9wdGlvbmFscRZ9cRdVCG9wZW5lZEFzcRiIiUsIKFUOMjU4X0ZHRzIyNC54eXpxGU5OSwF0cRp9cRsoKFUPbi0yNTJfRkdHNTUueHl6cRxOTksBdHEdXXEeSwNhKFUabi0yNThfRkdHMjI0LTI1Ml9GR0c1NS54eXpxH05OSwF0cSBdcSFLB2EoVRp0LTI1OF9GR0cyMjQtMjUyX0ZHRzU1Lnh5enEiTk5LAXRxI11xJEsGYShVGnMtMjU4X0ZHRzIyNC0yNTJfRkdHNTUueHl6cSVOTksBdHEmXXEnSwVhKFUPdC0yNTJfRkdHNTUueHl6cShOTksBdHEpXXEqSwJhKFUNMjUyX0ZHRzU1Lnh5enErTk5LAXRxLF1xLUsAYShVD3MtMjUyX0ZHRzU1Lnh5enEuTk5LAXRxL11xMEsBYXWHh3NVD2xvd2VyQ2FzZUNoYWluc3ExSwiJfYdVCWxpbmVXaWR0aHEySwhHP/AAAAAAAAB9h1UPcmVzaWR1ZUxhYmVsUG9zcTNLCEsAfYdVBG5hbWVxNEsIWAkAAAAyNTJfRkdHNTV9cTUoWAAAAABdcTYoSwBLBGVYGAAAAG4tMjU4X0ZHRzIyNC1tYXRjaGVkLnh5el1xN0sHYVgYAAAAdC0yNThfRkdHMjI0LW1hdGNoZWQueHl6XXE4SwZhWBgAAABzLTI1OF9GR0cyMjQtbWF0Y2hlZC54eXpdcTlLBWF1h1UPYXJvbWF0aWNEaXNwbGF5cTpLCIl9h1UPcmliYm9uU3RpZmZuZXNzcTtLCEc/6ZmZmZmZmn2HVQpwZGJIZWFkZXJzcTxdcT0ofXE+fXE/fXFAfXFBfXFCfXFDfXFEfXFFZVUDaWRzcUZLCEsASwCGfXFHKEsHSwCGXXFISwdhSwNLAIZdcUlLA2FLBksAhl1xSksGYUsCSwCGXXFLSwJhSwVLAIZdcUxLBWFLAUsAhl1xTUsBYUsESwCGXXFOSwRhdYdVDnN1cmZhY2VPcGFjaXR5cU9LCEe/8AAAAAAAAH2HVRBhcm9tYXRpY0xpbmVUeXBlcVBLCEsCfYdVFHJpYmJvbkhpZGVzTWFpbmNoYWlucVFLCIh9h1UHZGlzcGxheXFSSwiIfYd1Lg=='))
+	resInfo = cPickle.loads(base64.b64decode('gAJ9cQEoVQZpbnNlcnRxAksIVQEgfYdVC2ZpbGxEaXNwbGF5cQNLCIl9h1UEbmFtZXEESwhYAwAAAFVOS32HVQVjaGFpbnEFSwhYAQAAACB9h1UOcmliYm9uRHJhd01vZGVxBksISwJ9h1UCc3NxB0sIiYmGfYdVCG1vbGVjdWxlcQhLCEsAfXEJKEsBTl1xCksBSwGGcQthhksCTl1xDEsCSwGGcQ1hhksDTl1xDksDSwGGcQ9hhksETl1xEEsESwGGcRFhhksFTl1xEksFSwGGcRNhhksGTl1xFEsGSwGGcRVhhksHTl1xFksHSwGGcRdhhnWHVQtyaWJib25Db2xvcnEYSwhOfYdVBWxhYmVscRlLCFgAAAAAfYdVCmxhYmVsQ29sb3JxGksITn2HVQhmaWxsTW9kZXEbSwhLAX2HVQVpc0hldHEcSwiJfYdVC2xhYmVsT2Zmc2V0cR1LCE59h1UIcG9zaXRpb25xHl1xHyhLAUsBhnEgSwFLAYZxIUsBSwGGcSJLAUsBhnEjSwFLAYZxJEsBSwGGcSVLAUsBhnEmSwFLAYZxJ2VVDXJpYmJvbkRpc3BsYXlxKEsIiX2HVQhvcHRpb25hbHEpfVUEc3NJZHEqSwhK/////32HdS4='))
+	atomInfo = cPickle.loads(base64.b64decode('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'))
+	bondInfo = cPickle.loads(base64.b64decode('gAJ9cQEoVQVjb2xvcnECTSgBTn2HVQVhdG9tc3EDXXEEKF1xBShLEEsRZV1xBihLEUsSZV1xByhLEUsUZV1xCChLEksTZV1xCShLFEsVZV1xCihLFEsWZV1xCyhLFEsXZV1xDChLF0sYZV1xDShLF0sZZV1xDihLGUsaZV1xDyhLGUsbZV1xEChLG0scZV1xEShLG0sdZV1xEihLG0seZV1xEyhLHksfZV1xFChLHksgZV1xFShLIEshZV1xFihLIEsiZV1xFyhLIksjZV1xGChLIksmZV1xGShLIksnZV1xGihLI0skZV1xGyhLI0slZV1xHChLJ0soZV1xHShLJ0spZV1xHihLJ0sqZV1xHyhLKksrZV1xIChLKkszZV1xIShLK0ssZV1xIihLK0stZV1xIyhLLUsuZV1xJChLLUsvZV1xJShLL0swZV1xJihLL0sxZV1xJyhLMUsyZV1xKChLMUszZV1xKShLM0s0ZV1xKihLNUtBZV1xKyhLNUtNZV1xLChLNktNZV1xLShLN0tVZV1xLihLOEtUZV1xLyhLOUs8ZV1xMChLOUtDZV1xMShLOUtPZV1xMihLOktIZV1xMyhLOktOZV1xNChLOktVZV1xNShLO0tGZV1xNihLO0tUZV1xNyhLO0tZZV1xOChLPUtOZV1xOShLPktQZV1xOihLP0tPZV1xOyhLQEtRZV1xPChLQktOZV1xPShLREtSZV1xPihLRUtRZV1xPyhLR0tYZV1xQChLSUtXZV1xQShLSktZZV1xQihLS0tZZV1xQyhLTEtWZV1xRChLTUtOZV1xRShLT0tRZV1xRihLT0tUZV1xRyhLUEtSZV1xSChLUEtTZV1xSShLUUtTZV1xSihLUktWZV1xSyhLU0tXZV1xTChLVUtZZV1xTShLVktYZV1xTihLV0tYZV1xTyhLWktmZV1xUChLWkt8ZV1xUShLW0t8ZV1xUihLXEt+ZV1xUyhLXUt9ZV1xVChLXkttZV1xVShLXkt4ZV1xVihLXkt+ZV1xVyhLX0trZV1xWChLX0t7ZV1xWShLX0t9ZV1xWihLYEthZV1xWyhLYEtoZV1xXChLYEt5ZV1xXShLYkt4ZV1xXihLY0tyZV1xXyhLZEt5ZV1xYChLZUt6ZV1xYShLZ0t4ZV1xYihLaUtzZV1xYyhLakt6ZV1xZChLbEt3ZV1xZShLbkt2ZV1xZihLb0t7ZV1xZyhLcEt7ZV1xaChLcUt1ZV1xaShLcktzZV1xaihLckt0ZV1xayhLc0t1ZV1xbChLdEt2ZV1xbShLdEt6ZV1xbihLdUt3ZV1xbyhLdkt3ZV1xcChLeEt8ZV1xcShLeUt6ZV1xcihLeUt9ZV1xcyhLe0t+ZV1xdChLf0uGZV1xdShLf0uaZV1xdihLgEuaZV1xdyhLgUucZV1xeChLgkubZV1xeShLg0uHZV1xeihLg0uIZV1xeyhLg0uZZV1xfChLhEuKZV1xfShLhEuXZV1xfihLhEucZV1xfyhLhUuJZV1xgChLhUuYZV1xgShLhUubZV1xgihLi0uXZV1xgyhLjEueZV1xhChLjUuZZV1xhShLjkudZV1xhihLj0uXZV1xhyhLkEufZV1xiChLkUudZV1xiShLkkuiZV1xiihLk0uhZV1xiyhLlEuYZV1xjChLlUuYZV1xjShLlkugZV1xjihLl0uaZV1xjyhLmEucZV1xkChLmUubZV1xkShLmUudZV1xkihLnUujZV1xkyhLnkufZV1xlChLnkujZV1xlShLn0ugZV1xlihLoEuiZV1xlyhLoUuiZV1xmChLoUujZV1xmShLpEulZV1xmihLpUumZV1xmyhLpUuoZV1xnChLpkunZV1xnShLqEupZV1xnihLqEuqZV1xnyhLqEurZV1xoChLq0usZV1xoShLq0utZV1xoihLrUuuZV1xoyhLrUuvZV1xpChLr0uwZV1xpShLr0uxZV1xpihLr0uyZV1xpyhLskuzZV1xqChLsku0ZV1xqShLtEu1ZV1xqihLtEu2ZV1xqyhLtku3ZV1xrChLtku6ZV1xrShLtku7ZV1xrihLt0u4ZV1xryhLt0u5ZV1xsChLu0u8ZV1xsShLu0u9ZV1xsihLu0u+ZV1xsyhLvku/ZV1xtChLvkvHZV1xtShLv0vAZV1xtihLv0vBZV1xtyhLwUvCZV1xuChLwUvDZV1xuShLw0vEZV1xuihLw0vFZV1xuyhLxUvGZV1xvChLxUvHZV1xvShLx0vIZV1xvihLyUvVZV1xvyhLyUvhZV1xwChLykvhZV1xwShLy0vpZV1xwihLzEvoZV1xwyhLzUvQZV1xxChLzUvTZV1xxShLzUvjZV1xxihLzkvcZV1xxyhLzkviZV1xyChLzkvpZV1xyShLz0vaZV1xyihLz0voZV1xyyhLz0vtZV1xzChL0UviZV1xzShL0kvkZV1xzihL1EvlZV1xzyhL1kviZV1x0ChL10vjZV1x0ShL2EvmZV1x0ihL2UvlZV1x0yhL20vsZV1x1ChL3UvrZV1x1ShL3kvtZV1x1ihL30vtZV1x1yhL4EvqZV1x2ChL4UviZV1x2ShL40vlZV1x2ihL40voZV1x2yhL5EvmZV1x3ChL5EvnZV1x3ShL5UvnZV1x3ihL5kvqZV1x3yhL50vrZV1x4ChL6UvtZV1x4ShL6kvsZV1x4ihL60vsZV1x4yhL7kv6ZV1x5ChL7k0QAWVdceUoS+9NEAFlXXHmKEvwTRIBZV1x5yhL8U0RAWVdcegoS/JNAQFlXXHpKEvyTQwBZV1x6ihL8k0SAWVdcesoS/NL/2VdcewoS/NNDwFlXXHtKEvzTREBZV1x7ihL9Ev1ZV1x7yhL9Ev4ZV1x8ChL9E0NAWVdcfEoS/ZNDAFlXXHyKEv3TQYBZV1x8yhL+U0OAWVdcfQoS/tNDAFlXXH1KEv8TQ0BZV1x9ihL/U0HAWVdcfcoS/5NDgFlXXH4KE0AAU0LAWVdcfkoTQIBTQoBZV1x+ihNAwFNDwFlXXH7KE0EAU0PAWVdcfwoTQUBTQkBZV1x/ShNBgFNBwFlXXH+KE0GAU0IAWVdcf8oTQcBTQkBZV1yAAEAAChNCAFNCgFlXXIBAQAAKE0IAU0OAWVdcgIBAAAoTQkBTQsBZV1yAwEAAChNCgFNCwFlXXIEAQAAKE0MAU0QAWVdcgUBAAAoTQ0BTQ4BZV1yBgEAAChNDQFNEQFlXXIHAQAAKE0PAU0SAWVdcggBAAAoTRMBTRoBZV1yCQEAAChNEwFNLgFlXXIKAQAAKE0UAU0uAWVdcgsBAAAoTRUBTTABZV1yDAEAAChNFgFNLwFlXXINAQAAKE0XAU0bAWVdcg4BAAAoTRcBTRwBZV1yDwEAAChNFwFNLQFlXXIQAQAAKE0YAU0eAWVdchEBAAAoTRgBTSsBZV1yEgEAAChNGAFNMAFlXXITAQAAKE0ZAU0dAWVdchQBAAAoTRkBTSwBZV1yFQEAAChNGQFNLwFlXXIWAQAAKE0fAU0rAWVdchcBAAAoTSABTTIBZV1yGAEAAChNIQFNLQFlXXIZAQAAKE0iAU0xAWVdchoBAAAoTSMBTSsBZV1yGwEAAChNJAFNMwFlXXIcAQAAKE0lAU0xAWVdch0BAAAoTSYBTTYBZV1yHgEAAChNJwFNNQFlXXIfAQAAKE0oAU0sAWVdciABAAAoTSkBTSwBZV1yIQEAAChNKgFNNAFlXXIiAQAAKE0rAU0uAWVdciMBAAAoTSwBTTABZV1yJAEAAChNLQFNLwFlXXIlAQAAKE0tAU0xAWVdciYBAAAoTTEBTTcBZV1yJwEAAChNMgFNMwFlXXIoAQAAKE0yAU03AWVdcikBAAAoTTMBTTQBZV1yKgEAAChNNAFNNgFlXXIrAQAAKE01AU02AWVdciwBAAAoTTUBTTcBZWVVBWxhYmVsci0BAABNKAFYAAAAAH2HVQhoYWxmYm9uZHIuAQAATSgBiH2HVQZyYWRpdXNyLwEAAE0oAUc/yZmZoAAAAH2HVQtsYWJlbE9mZnNldHIwAQAATSgBTn2HVQhkcmF3TW9kZXIxAQAATSgBSwF9h1UIb3B0aW9uYWxyMgEAAH1VB2Rpc3BsYXlyMwEAAE0oAUsCfYd1Lg=='))
+	crdInfo = cPickle.loads(base64.b64decode('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'))
+	surfInfo = {'category': (0, None, {}), 'probeRadius': (0, None, {}), 'pointSize': (0, None, {}), 'name': [], 'density': (0, None, {}), 'colorMode': (0, None, {}), 'useLighting': (0, None, {}), 'transparencyBlendMode': (0, None, {}), 'molecule': [], 'smoothLines': (0, None, {}), 'lineWidth': (0, None, {}), 'allComponents': (0, None, {}), 'twoSidedLighting': (0, None, {}), 'customVisibility': [], 'drawMode': (0, None, {}), 'display': (0, None, {}), 'customColors': []}
+	vrmlInfo = {'subid': (0, None, {}), 'display': (0, None, {}), 'id': (0, None, {}), 'vrmlString': [], 'name': (0, None, {})}
+	colors = {'deep pink': ((1, 0.0784314, 0.576471), 1, u'default'), 'gold': ((1, 0.843137, 0), 1, u'default'), 'plum': ((0.866667, 0.627451, 0.866667), 1, u'default'), 'salmon': ((0.980392, 0.501961, 0.447059), 1, u'default'), 'light green': ((0.564706, 0.933333, 0.564706), 1, u'default'), 'sky blue': ((0.529412, 0.807843, 0.921569), 1, u'default'), 'tan': ((0.823529, 0.705882, 0.54902), 1, u'default'), 'light gray': ((0.827451, 0.827451, 0.827451), 1, u'default')}
+	materials = {u'default': ((0.85, 0.85, 0.85), 30)}
+	pbInfo = {'category': [u'distance monitor'], 'bondInfo': [{'color': (0, None, {}), 'atoms': [], 'label': (0, None, {}), 'halfbond': (0, None, {}), 'labelColor': (0, None, {}), 'drawMode': (0, None, {}), 'display': (0, None, {})}], 'lineType': (1, 1, {}), 'color': (1, 9, {}), 'optional': {'fixedLabels': (True, False, (1, False, {}))}, 'display': (1, True, {}), 'showStubBonds': (1, False, {}), 'lineWidth': (1, 1, {}), 'stickScale': (1, 1, {}), 'id': [-2]}
+	modelAssociations = {}
+	colorInfo = (12, (u'deep pink', (1, 0.0784314, 0.576471, 1)), {(u'green', (0, 1, 0, 1)): [11], (u'light green', (0.564706, 0.933333, 0.564706, 1)): [3], (u'magenta', (1, 0, 1, 1)): [8], (u'', (1, 1, 1, 1)): [10], (u'gold', (1, 0.843137, 0, 1)): [7], (u'sky blue', (0.529412, 0.807843, 0.921569, 1)): [1], (u'tan', (0.823529, 0.705882, 0.54902, 1)): [0], (u'plum', (0.866667, 0.627451, 0.866667, 1)): [2], (u'light gray', (0.827451, 0.827451, 0.827451, 1)): [5], (u'salmon', (0.980392, 0.501961, 0.447059, 1)): [4], (u'gray', (0.745, 0.745, 0.745, 1)): [9]})
+	viewerInfo = {'cameraAttrs': {'center': (0.19649996900558, 0.50299999046326, 0.13299999046326), 'fieldOfView': 25, 'nearFar': (7.1585000071526, -6.892500026226), 'ortho': False, 'eyeSeparation': 50.8, 'focal': 0.13299999046326}, 'viewerAttrs': {'viewSize': 7.0255000166893, 'highlight': 0, 'clipping': False, 'scaleFactor': 1}, 'viewerHL': 11, 'cameraMode': 'mono', 'detail': 1, 'viewerFog': None, 'viewerBG': 10}
+
+	replyobj.status("Initializing session restore...", blankAfter=0,
+		secondary=True)
+	from SimpleSession.versions.v62 import expandSummary
+	init(dict(enumerate(expandSummary(colorInfo))))
+	replyobj.status("Restoring colors...", blankAfter=0,
+		secondary=True)
+	restoreColors(colors, materials)
+	replyobj.status("Restoring molecules...", blankAfter=0,
+		secondary=True)
+	restoreMolecules(molInfo, resInfo, atomInfo, bondInfo, crdInfo)
+	replyobj.status("Restoring surfaces...", blankAfter=0,
+		secondary=True)
+	restoreSurfaces(surfInfo)
+	replyobj.status("Restoring VRML models...", blankAfter=0,
+		secondary=True)
+	restoreVRML(vrmlInfo)
+	replyobj.status("Restoring pseudobond groups...", blankAfter=0,
+		secondary=True)
+	restorePseudoBondGroups(pbInfo)
+	replyobj.status("Restoring model associations...", blankAfter=0,
+		secondary=True)
+	restoreModelAssociations(modelAssociations)
+	replyobj.status("Restoring camera...", blankAfter=0,
+		secondary=True)
+	restoreViewer(viewerInfo)
+
+try:
+	restoreCoreModels()
+except:
+	reportRestoreError("Error restoring core models")
+
+	replyobj.status("Restoring extension info...", blankAfter=0,
+		secondary=True)
+
+
+try:
+	import StructMeasure
+	from StructMeasure.DistMonitor import restoreDistances
+	registerAfterModelsCB(restoreDistances, 1)
+except:
+	reportRestoreError("Error restoring distances in session")
+
+
+def restoreMidasBase():
+	formattedPositions = {}
+	import Midas
+	Midas.restoreMidasBase(formattedPositions)
+try:
+	restoreMidasBase()
+except:
+	reportRestoreError('Error restoring Midas base state')
+
+
+def restoreMidasText():
+	from Midas import midas_text
+	midas_text.aliases = {}
+	midas_text.userSurfCategories = {}
+
+try:
+	restoreMidasText()
+except:
+	reportRestoreError('Error restoring Midas text state')
+
+
+def restoreLightController():
+	import Lighting
+	Lighting._setFromParams({'ratio': 1.25, 'brightness': 1.16, 'material': [30.0, (0.85, 0.85, 0.85), 1.0], 'back': [(0.35740674433659325, 0.6604015517481454, -0.6604015517481455), (1.0, 1.0, 1.0), 0.0], 'mode': 'two-point', 'key': [(-0.35740674433659325, 0.6604015517481454, 0.6604015517481455), (1.0, 1.0, 1.0), 1.0], 'contrast': 0.83, 'fill': [(0.25056280708573153, 0.25056280708573153, 0.9351131265310293), (1.0, 1.0, 1.0), 0.0]})
+try:
+	restoreLightController()
+except:
+	reportRestoreError("Error restoring lighting parameters")
+
+
+def restoreRemainder():
+	from SimpleSession.versions.v62 import restoreWindowSize, \
+	     restoreOpenStates, restoreSelections, restoreFontInfo, \
+	     restoreOpenModelsAttrs, restoreModelClip, restoreSilhouettes
+
+	curSelIds =  []
+	savedSels = []
+	openModelsAttrs = { 'cofrMethod': 1 }
+	windowSize = (1024, 1024)
+	xformMap = {0: (((0, 0, 1), 0), (0, 0, 0), True), 1: (((0, 0, 1), 0), (0, 0, 0), True), 2: (((0, 0, 1), 0), (0, 0, 0), True), 3: (((0, 0, 1), 0), (0, 0, 0), True), 4: (((0, 0, 1), 0), (0, 0, 0), True), 5: (((0, 0, 1), 0), (0, 0, 0), True), 6: (((0, 0, 1), 0), (0, 0, 0), True), 7: (((0, 0, 1), 0), (0, 0, 0), True)}
+	fontInfo = {'face': (u'Sans Serif', 'Bold', 12)}
+	clipPlaneInfo = {}
+	silhouettes = {0: True, 1: True, 2: True, 3: True, 4: True, 5: True, 6: True, 7: True, 608: True}
+
+	replyobj.status("Restoring window...", blankAfter=0,
+		secondary=True)
+	restoreWindowSize(windowSize)
+	replyobj.status("Restoring open states...", blankAfter=0,
+		secondary=True)
+	restoreOpenStates(xformMap)
+	replyobj.status("Restoring font info...", blankAfter=0,
+		secondary=True)
+	restoreFontInfo(fontInfo)
+	replyobj.status("Restoring selections...", blankAfter=0,
+		secondary=True)
+	restoreSelections(curSelIds, savedSels)
+	replyobj.status("Restoring openModel attributes...", blankAfter=0,
+		secondary=True)
+	restoreOpenModelsAttrs(openModelsAttrs)
+	replyobj.status("Restoring model clipping...", blankAfter=0,
+		secondary=True)
+	restoreModelClip(clipPlaneInfo)
+	replyobj.status("Restoring per-model silhouettes...", blankAfter=0,
+		secondary=True)
+	restoreSilhouettes(silhouettes)
+
+	replyobj.status("Restoring remaining extension info...", blankAfter=0,
+		secondary=True)
+try:
+	restoreRemainder()
+except:
+	reportRestoreError("Error restoring post-model state")
+from SimpleSession.versions.v62 import makeAfterModelsCBs
+makeAfterModelsCBs()
+
+from SimpleSession.versions.v62 import endRestore
+replyobj.status('Finishing restore...', blankAfter=0, secondary=True)
+endRestore({})
+replyobj.status('', secondary=True)
+replyobj.status('Restore finished.')
+
