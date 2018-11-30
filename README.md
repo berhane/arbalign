@@ -68,10 +68,10 @@ The default is to include all atoms
 # Requirements
 ## Python 2.7+
 * Python `numpy` module. If you don't have it already, you can install it using `pip`
- * `pip install numpy`
+   * `pip install numpy`
 * Python `hungarian` module. 
- * `pip install hungarian`
- * If you want to install it from source, please see https://github.com/Hrldcpr/Hungarian. You would either want to copy the file `build/lib-XXX/hungarian.so` into a location that's included in your `$PYTHONPATH` or whatever directory you are running ArbAlign from.
+   * `pip install hungarian`
+   * If you want to install it from source, please see https://github.com/Hrldcpr/Hungarian. You would either want to copy the file `build/lib-XXX/hungarian.so` into a location that's included in your `$PYTHONPATH` or whatever directory you are running ArbAlign from.
 * If you prefer to use the slower `scipy` linear assignment solver, you would need to install it
   using pip :  `pip install scipy`
 
