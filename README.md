@@ -67,17 +67,13 @@ The default is to include all atoms
 
 # Requirements
 ## Python 2.7+
-* Python Numpy module. If you don't have it already, you can install it using `pip`
+* Python `numpy` module. If you don't have it already, you can install it using `pip`
  * `pip install numpy`
-* Python Hungarian module by Harold Cooper
-  * Hungarian: Munkres' Algorithm for the Linear Assignment Problem in Python (https://github.com/Hrldcpr/Hungarian)
-  * This is a wrapper to a fast C++ implementation of the Kuhn-Munkres algorithm. The installation instructions are described clearly at https://github.com/Hrldcpr/Hungarian.
-  * In short, one would need to go into the `hungarian` directory and
-    * `python setup.py build`  
-    * `python setup.py install`
-    * You would either want to copy the file `build/lib-XXX/hungarian.so` into a location that's
-      included in your `$PYTHONPATH` or whatever directory you are running ArbAlign from.
-* Alternatively, you can use Brian Clapper's Munkres module or another similar module includeded in SciNumpy. This could require you to make small changes to the current script. We'll provide an version that uses SciNumpy's Munkres module at a later time.
+* Python `hungarian` module. 
+ * `pip install hungarian`
+ * If you want to install it from source, please see https://github.com/Hrldcpr/Hungarian. You would either want to copy the file `build/lib-XXX/hungarian.so` into a location that's included in your `$PYTHONPATH` or whatever directory you are running ArbAlign from.
+* If you prefer to use the slower `scipy` linear assignment solver, you would need to install it
+  using pip :  `pip install scipy`
 
 ## Other Tools Needed to Align by Atom Type or Connectivity
 * OpenBabel - We use OpenBabel to convert Cartesian coordinates (XYZ) to formats containing atmm types including connectivity and hybridization information. It is necessary to use OpenBabel to convert the Cartesian coordinates to SYBYL Mol2 (sy2) and MNA (mna) formats.
