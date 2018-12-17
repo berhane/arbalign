@@ -328,7 +328,7 @@ The code will provide the following:
 
 If you find this script useful for any publishable work, please cite the corresponding paper:
   Berhane Temelso, Joel M. Mabey, Toshiro Kubota, Nana Appiah-padi, George C. Shields
-  J. Chem. Info. Model. X(Y), 2016
+  J. Chem. Info. Model. 2017, 57(5), 1045-1054 
 """
 
    # Parse arguments and provide usage information when necessary
@@ -341,8 +341,8 @@ If you find this script useful for any publishable work, please cite the corresp
            the default is to perform axes swaps and reflections')
    parser.add_argument('-n', '--noHydrogens', action='store_true', help='Ignore hydrogens; \
            the default is to include all atoms ')
-   parser.add_argument('-z', '--zero', action='store_false', help='does nothing')
-
+   parser.add_argument('-v', '--verbose', action='store_true', help='prints \
+           detailed output')
    args = parser.parse_args()
 
    # Read in original coordinates and labels of xyz1 and xyz2
@@ -530,7 +530,8 @@ If you find this script useful for any publishable work, please cite the corresp
             b_trans = b_final
             l += 1
             q = l - 1 
-            print str(Uniq[q]) + " Swap: " + str(B_t[i][1]) + " Refl: " + str(B_t[i][2]) + " RMSD: " + str(kabsch(a_coords, b_final)) + " " + str(vars()[Perm[Uniq[q]]])
+            if args.verbose:
+                print str(Uniq[q]) + " Swap: " + str(B_t[i][1]) + " Refl: " + str(B_t[i][2]) + " RMSD: " + str(kabsch(a_coords, b_final)) + " " + str(vars()[Perm[Uniq[q]]])
             rmsds.append([kabsch(a_coords, b_final), B_t[i][1], B_t[i][2], b_final])
             rmsds = sorted(rmsds, key = lambda x: x[0])
             #print "Permutation: " + str(vars()[Perm[Uniq[q]]])
@@ -542,6 +543,8 @@ If you find this script useful for any publishable work, please cite the corresp
    #print "Permutation: " + str(rmsds[0][4])
    FinalRMSD = float(rmsds[0][0])
    if FinalRMSD < float(InitRMSD_unsorted): 
+      if not args.verbose:
+         print "Please use the -v or --verbose options to see optimal reorderings"
       print "Initial unsorted RMSD: %2.3f" % float(InitRMSD_unsorted)
       print "Initial   sorted RMSD: %2.3f" % float(InitRMSD_sorted)
       print "Best             RMSD: %2.3f" % float(rmsds[0][0])
