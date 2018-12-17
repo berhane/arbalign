@@ -33,6 +33,8 @@ Usage: ArbAlign-driver.py [-b/--by {l, t, c}] [-n/--noHydrogens] [-s/--simple] A
    -n, --noHydrogens
      Ignore hydrogens.
      The default is to include all atoms
+   -v, --verbose     
+    prints detailed output. The default is to print minimal amount of information
 ```
 # Examples
 
