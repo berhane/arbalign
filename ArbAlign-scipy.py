@@ -501,7 +501,8 @@ If you find this script useful for any publishable work, please cite the corresp
          #print str(vars()[b_Indices[Uniq[l]]])
          b_perm = permute_atoms(b_coords, vars()[Perm[Uniq[l]]], vars()[b_Indices[Uniq[l]]])
          b_final = transform_coords(b_perm, B_t[i][1], B_t[i][2])
-         print str(Uniq[l]) + " Swap: " + str(B_t[i][1]) + " Refl: " + str(B_t[i][2]) + " RMSD: " + str(kabsch(a_coords, b_final)) + " " + str(vars()[Perm[Uniq[l]]])
+         if args.verbose:
+            print str(Uniq[l]) + " Swap: " + str(B_t[i][1]) + " Refl: " + str(B_t[i][2]) + " RMSD: " + str(kabsch(a_coords, b_final)) + " " + str(vars()[Perm[Uniq[l]]])
          rmsds.append([kabsch(a_coords, b_final), B_t[i][1], B_t[i][2], b_final, vars()[Perm[Uniq[l]]]])
          rmsds = sorted(rmsds, key = lambda x: x[0])
       else: 
